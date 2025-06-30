@@ -1,0 +1,35 @@
+[project]
+name = "machine-analysis"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Yannis",email = "sebastienyannis@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas (>=2.3.0,<3.0.0)",
+    "pandera (>=0.24.0,<0.25.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+flake8 = "^7.3.0"
+ipykernel = "^6.29.5"
+isort = "^6.0.1"
+
+[tool.black]
+target-version = ["py313"]
+line-length = 79
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
