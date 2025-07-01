@@ -6,8 +6,8 @@ import tempfile
 import pandas as pd
 import pytest
 
-from src.machines.preprocessing import JsonDataLoader
-from tests.conftest import fake_datas
+from src.machines.preprocessing.DataLoader import JsonDataLoader
+from tests.conftest import fake_datas_str
 
 
 class TestJsonLoader:
@@ -15,7 +15,7 @@ class TestJsonLoader:
         self.temp_file = tempfile.NamedTemporaryFile(
             delete=False, mode="w+", suffix=".txt"
         )
-        self.temp_file.write(fake_datas())
+        self.temp_file.write(fake_datas_str())
         self.temp_file.seek(0)
 
     def teardown_method(self) -> None:
