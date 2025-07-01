@@ -1,10 +1,5 @@
-import io
-import json
 import os
 import tempfile
-
-import pandas as pd
-import pytest
 
 from src.machines.preprocessing.DataLoader import JsonDataLoader
 from tests.conftest import fake_datas_str
@@ -19,10 +14,8 @@ class TestJsonLoader:
         self.temp_file.seek(0)
 
     def teardown_method(self) -> None:
-        try:
+        if self.temp_file:
             os.remove(self.temp_file.name)
-        except:
-            pass
 
     def test_load_json(self) -> None:
         loader = JsonDataLoader(

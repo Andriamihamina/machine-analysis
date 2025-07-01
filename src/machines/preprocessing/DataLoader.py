@@ -1,4 +1,3 @@
-import json
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional
 
@@ -42,4 +41,4 @@ class JsonDataLoader(MachineDataLoader):
             schema.validate(df)
             return df
         except SchemaError as e:
-            raise
+            raise e

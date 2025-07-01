@@ -14,10 +14,8 @@ class TestDataPreprocessor:
         self.temp_file.seek(0)
 
     def teardown_method(self) -> None:
-        try:
+        if self.temp_file:
             os.remove(self.temp_file.name)
-        except:
-            pass
 
     def test_load_json(self) -> None:
         df = MachineDataPreprocessor().load_json(self.temp_file.name)
