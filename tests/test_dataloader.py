@@ -18,12 +18,12 @@ class TestJsonLoader:
         )
         df = loader.load_datas()
         assert not df.empty
-        assert {"timestamp", "energy_value"}.issubset(df.columns)
+        assert "energy_value" in df.columns
         assert df.index.name == "timestamp"
 
     def test_load_json_columns_not_matching(self) -> None:
         loader = JsonDataLoader(self.temp_file.name)
         df = loader.load_datas()
         assert not df.empty
-        assert {"timestamp", "energy_value"}.issubset(df.columns)
+        assert "energy_value" in df.columns
         assert df.index.name == "timestamp"
