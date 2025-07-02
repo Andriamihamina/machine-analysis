@@ -1,7 +1,6 @@
-import os
 import tempfile
 
-from src.machines.preprocessing.DataLoader import JsonDataLoader
+from src.machines.DataLoader import JsonDataLoader
 from tests.conftest import fake_datas_str
 
 
@@ -12,10 +11,6 @@ class TestJsonLoader:
         )
         self.temp_file.write(fake_datas_str())
         self.temp_file.seek(0)
-
-    def teardown_method(self) -> None:
-        if self.temp_file:
-            os.remove(self.temp_file.name)
 
     def test_load_json(self) -> None:
         loader = JsonDataLoader(
