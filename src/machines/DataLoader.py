@@ -32,7 +32,8 @@ class JsonDataLoader(MachineDataLoader):
 
         :param path: Path to the JSON file containing machine data.
         :type path: str
-        :param columns: Mapping of columns in case names need to be renamed, defaults to None
+        :param columns:
+            Mapping of columns in case names need to be renamed, defaults to None
         :type columns: Optional[Dict[str, str]], optional
         """
         self.path = path
@@ -43,8 +44,10 @@ class JsonDataLoader(MachineDataLoader):
         Proceeds to load the data from the JSON file,
         renaming columns if specified, and validating the schema.
 
-        :raises: SchemaError if the DataFrame does not conform to the expected schema.
-        :return: DataFrame containing the machine data with 'timestamp' as index.
+        :raises:
+            SchemaError if the DataFrame does not conform to the expected schema.
+        :return:
+            DataFrame containing the machine data with 'timestamp' as index.
         :rtype: pandas.DataFrame
         """
         df: DataFrame[Any] = pd.read_json(self.path)

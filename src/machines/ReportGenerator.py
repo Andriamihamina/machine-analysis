@@ -34,9 +34,11 @@ class ReportGenerator:
 
         :param data: _description_
         :type data: pd.DataFrame
-        :param detector: Anomaly detector instance that implements the detect method.
+        :param detector:
+            Anomaly detector instance that implements the detect method.
         :type detector: AnomalyDetector
-        :return: DataFrame with an additional 'anomaly' boolean column indicating anomalies.
+        :return: DataFrame with an additional 'anomaly'
+        boolean column indicating anomalies.
         :rtype: pd.DataFrame
         """
         return detector.detect(data)

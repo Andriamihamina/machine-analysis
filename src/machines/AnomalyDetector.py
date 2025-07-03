@@ -14,7 +14,8 @@ class AnomalyDetector(ABC):
 
         :param data: dataframe containing the energy consumption data
         :type data: pandas.DataFrame
-        :return: DataFrame with an additional 'anomaly' boolean column indicating anomalies
+        :return:
+            DataFrame with an additional 'anomaly' boolean column indicating anomalies
         :rtype: pandas.DataFrame
         """
         pass
@@ -52,7 +53,8 @@ class ThresholdAnomalyDetector(AnomalyDetector):
 
         :param data: Dataframe containing discrete production cycles
         :type data: pandas.DataFrame
-        :return: DataFrame with an additional 'anomaly' boolean column indicating anomalies
+        :return: DataFrame with an additional 'anomaly'
+        boolean column indicating anomalies
         :rtype: pandas.DataFrame
         """
         data = data.copy()
@@ -85,7 +87,8 @@ class IsolationForestAnomalyDetector(AnomalyDetector):
 
         :param data: Dataframe containing discrete production cycles
         :type data: pandas.DataFrame
-        :return: DataFrame with an additional 'anomaly' boolean column indicating anomalies
+        :return: DataFrame with an additional 'anomaly'
+        boolean column indicating anomalies
         :rtype: pandas.DataFrame
         """
         data = data.copy()
