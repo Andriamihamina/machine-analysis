@@ -13,17 +13,17 @@ class TestJsonLoader:
         self.temp_file.seek(0)
 
     def test_load_json(self) -> None:
-        loader = JsonDataLoader()
-        df = loader.load(
+        loader = JsonDataLoader(
             self.temp_file.name, {"value": "energy_value", "time": "timestamp"}
         )
+        df = loader.load_datas()
         assert not df.empty
         assert "energy_value" in df.columns
         assert df.index.name == "timestamp"
 
     def test_load_json_columns_not_matching(self) -> None:
-        loader = JsonDataLoader()
-        df = loader.load(self.temp_file.name)
+        loader = JsonDataLoader(self.temp_file.name)
+        df = loader.load_datas()
         assert not df.empty
         assert "energy_value" in df.columns
         assert df.index.name == "timestamp"
