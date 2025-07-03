@@ -22,35 +22,30 @@ class MachineDataLoader(ABC):
 
 class JsonDataLoader(MachineDataLoader):
     """
-    Data loader for reading machine data from a JSON file.
-
-    Args:
-        path (str): Path to the JSON file.
-        columns (Optional[Dict[str, str]]): Optional mapping
-        to indicate the column names in case
-        they are not named timestamp and energy_value as expected
+    Loader that loads machine data from a JSON file.
     """
 
     def __init__(self, path: str, columns: Optional[Dict[str, str]] = None):
+        """
+        Initializes the JsonDataLoader with a file path
+        and optional column renaming.
+
+        :param path: Path to the JSON file containing machine data.
+        :type path: str
+        :param columns: Mapping of columns in case names need to be renamed, defaults to None
+        :type columns: Optional[Dict[str, str]], optional
+        """
         self.path = path
         self.columns = columns
 
     def load_datas(self) -> pd.DataFrame:
         """
-        Load machine data from a JSON file
-        and ensures the obtained data is structured as expected
+        Proceeds to load the data from the JSON file,
+        renaming columns if specified, and validating the schema.
 
-        -Renames columns if necessary
-        -Sets the timestamp column as index and sort by it
-        -Validates the schema of the obtained DataFrame
-
-        Returns:
-            pd.DataFrame: The loaded and validated machine data.
-
-        Raises:
-            SchemaError if the DataFrame doesn't have
-            the expected energy_value column
-            and the Datetime column as index
+        :raises: SchemaError if the DataFrame does not conform to the expected schema.
+        :return: DataFrame containing the machine data with 'timestamp' as index.
+        :rtype: pandas.DataFrame
         """
         df: DataFrame[Any] = pd.read_json(self.path)
         if self.columns:

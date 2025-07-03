@@ -22,12 +22,30 @@ class KMeansStateDetectorConfig(StateDetectorConfig):
 
 
 class ThresholdBoundaries(TypedDict, total=False):
+    """
+    Indicates the boundaries for a threshold state detector.
+
+    :key lower: The lower boundary for the threshold.
+    :type lower: int
+    :key upper: The upper boundary for the threshold.
+    :type upper: int
+    """
+
     lower: int
     upper: int
 
 
 @dataclasses.dataclass
 class ThresholdStateDetectorConfig(StateDetectorConfig):
+    """
+    Configuration for a threshold-based state detector.
+
+    :key column_name: The name of the column to apply the thresholds on.
+    :type column_name: str
+    :key thresholds: A dictionary mapping state names to their threshold boundaries.
+    :type thresholds: Dict[str, ThresholdBoundaries]
+    """
+
     column_name: str
     thresholds: Dict[str, ThresholdBoundaries]
 
@@ -52,10 +70,24 @@ class KMeansStateDetector(StateDetector[KMeansStateDetectorConfig]):
 
 
 class ThresholdStateDetector(StateDetector[ThresholdStateDetectorConfig]):
+    """
+    Detects states based on predefined thresholds for a specific column.
+
+    """
 
     def detect_state(
         self, data: pd.DataFrame, config: ThresholdStateDetectorConfig
     ) -> pd.DataFrame:
+        """
+        Detects states based on predefined thresholds for a specific column.
+
+        :param data: Dataframe containing the energy consumption data
+        :type data: pandas.DataFrame
+        :param config: Configuration for the threshold state detector.
+        :type config: ThresholdStateDetectorConfig
+        :return: DataFrame with an additional 'state' column indicating the detected states.
+        :rtype: pd.DataFrame
+        """
         for state, boundaries in config.thresholds.items():
             mask = pd.Series(True, index=data.index)
             if "lower" in boundaries:
