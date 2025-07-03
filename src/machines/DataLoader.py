@@ -11,7 +11,7 @@ class MachineDataLoader(ABC):
     """Abstract base class for machine data loaders."""
 
     @abstractmethod
-    def load_datas(self) -> pd.DataFrame:
+    def load(self) -> pd.DataFrame:
         """Load machine data from different sources into a pandas DataFrame.
 
         Returns:
@@ -25,31 +25,24 @@ class JsonDataLoader(MachineDataLoader):
     Loader that loads machine data from a JSON file.
     """
 
-    def __init__(self, path: str, columns: Optional[Dict[str, str]] = None):
-        """
-        Initializes the JsonDataLoader with a file path
-        and optional column renaming.
-
-        :param path: Path to the JSON file containing machine data.
-        :type path: str
-        :param columns: Mapping of columns in case names need to be renamed, defaults to None
-        :type columns: Optional[Dict[str, str]], optional
-        """
-        self.path = path
-        self.columns = columns
-
-    def load_datas(self) -> pd.DataFrame:
+    def load(
+        self, path: str, column_mappings: Optional[Dict[str, str]] = None
+    ) -> pd.DataFrame:
         """
         Proceeds to load the data from the JSON file,
         renaming columns if specified, and validating the schema.
 
+        :param path: Path to the JSON file containing machine data.
+        :type path: str
+        :param column_mappings: Mapping of columns in case names need to be renamed, defaults to None
+        :type column_mappings: Optional[Dict[str, str]], optional
         :raises: SchemaError if the DataFrame does not conform to the expected schema.
         :return: DataFrame containing the machine data with 'timestamp' as index.
         :rtype: pandas.DataFrame
         """
-        df: DataFrame[Any] = pd.read_json(self.path)
-        if self.columns:
-            df.rename(columns=self.columns, inplace=True)
+        df: DataFrame[Any] = pd.read_json(path)
+        if column_mappings:
+            df.rename(columns=column_mappings, inplace=True)
         df.set_index("timestamp", inplace=True)
         df.sort_index(inplace=True)
         df.dropna()
