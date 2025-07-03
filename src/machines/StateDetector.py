@@ -42,7 +42,8 @@ class ThresholdStateDetectorConfig(StateDetectorConfig):
 
     :key column_name: The name of the column to apply the thresholds on.
     :type column_name: str
-    :key thresholds: A dictionary mapping state names to their threshold boundaries.
+    :key thresholds:
+        A dictionary mapping state names to their threshold boundaries.
     :type thresholds: Dict[str, ThresholdBoundaries]
     """
 
@@ -85,8 +86,9 @@ class ThresholdStateDetector(StateDetector[ThresholdStateDetectorConfig]):
         :type data: pandas.DataFrame
         :param config: Configuration for the threshold state detector.
         :type config: ThresholdStateDetectorConfig
-        :return: DataFrame with an additional 'state' column indicating the detected states.
+        :return: DataFrame with an additional 'state' column.
         :rtype: pd.DataFrame
+
         """
         for state, boundaries in config.thresholds.items():
             mask = pd.Series(True, index=data.index)

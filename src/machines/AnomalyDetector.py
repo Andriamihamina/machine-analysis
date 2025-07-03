@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
+from typing import Any, Dict
 
 import pandas as pd
+from sklearn.ensemble import IsolationForest
 
 
 class AnomalyDetector(ABC):
@@ -12,7 +14,8 @@ class AnomalyDetector(ABC):
 
         :param data: dataframe containing the energy consumption data
         :type data: pandas.DataFrame
-        :return: DataFrame with an additional 'anomaly' boolean column indicating anomalies
+        :return:
+            DataFrame with an additional 'anomaly' boolean column indicating anomalies
         :rtype: pandas.DataFrame
         """
         pass
@@ -50,7 +53,8 @@ class ThresholdAnomalyDetector(AnomalyDetector):
 
         :param data: Dataframe containing discrete production cycles
         :type data: pandas.DataFrame
-        :return: DataFrame with an additional 'anomaly' boolean column indicating anomalies
+        :return: DataFrame with an additional 'anomaly'
+        boolean column indicating anomalies
         :rtype: pandas.DataFrame
         """
         data = data.copy()
@@ -59,4 +63,36 @@ class ThresholdAnomalyDetector(AnomalyDetector):
         )
 
         data["anomaly"] = conditions
+        return data
+
+
+class IsolationForestAnomalyDetector(AnomalyDetector):
+    """
+    Detects anomalies based on energy consumption thresholds.
+    """
+
+    def __init__(self, config: Dict[Any, Any]):
+        """
+        Config for the IsolationForestAnomalyDetector.
+
+        :param config: Isolation Forest configuration parameters.
+        :type config: Dict[Any, Any]
+        """
+        self.config = config
+
+    def detect(self, data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Adds an boolean column 'anomaly'  to the dataframe indicating anomaly
+
+
+        :param data: Dataframe containing discrete production cycles
+        :type data: pandas.DataFrame
+        :return: DataFrame with an additional 'anomaly'
+        boolean column indicating anomalies
+        :rtype: pandas.DataFrame
+        """
+        data = data.copy()
+        iso_forest = IsolationForest(self.config)
+        data["anomaly"] = iso_forest.fit_predict(data)
+
         return data
